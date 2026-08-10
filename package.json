@@ -1,0 +1,9 @@
+{
+  "name": "santos-estudos-v9-cloud",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "validate": "node VALIDACAO_V9.js",
+    "serve": "python -m http.server 8080"
+  }
+}
