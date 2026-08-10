@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>Santos Estudos</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+<div class="cloud-boot" id="bootScreen">
+  <div class="auth-brand-mark">S</div>
+  <strong>Santos Estudos</strong>
+  <span>Conectando à sua conta…</span>
+</div>
+
+<section class="auth-screen" id="authScreen" hidden>
+  <div class="auth-panel">
+    <div class="auth-brand">
+      <div class="auth-brand-mark">S</div>
+      <div><strong>Santos Estudos</strong><span>Concurso Prefeitura de Santos</span></div>
+    </div>
+    <div class="auth-copy">
+      <span class="eyebrow dark">V9 · MULTIUSUÁRIO</span>
+      <h1>Seu estudo sincronizado em qualquer lugar.</h1>
+      <p>Entre com sua conta para acessar progresso, questões, simulados, revisões e caderno de erros em qualquer computador.</p>
+      <div class="auth-points"><span>✓ Dados separados por usuário</span><span>✓ Supabase + Row Level Security</span><span>✓ Cache local em caso de oscilação</span></div>
+    </div>
+    <div class="auth-card">
+      <div class="auth-tabs"><button class="active" data-auth-tab="signin">Entrar</button><button data-auth-tab="signup">Criar conta</button></div>
+      <div id="authMessage" class="auth-message" hidden></div>
+      <form id="signInForm" class="auth-form">
+        <label class="field"><span>E-mail</span><input id="signInEmail" type="email" autocomplete="email" required /></label>
+        <label class="field"><span>Senha</span><input id="signInPassword" type="password" autocomplete="current-password" minlength="6" required /></label>
+        <button class="primary auth-submit" type="submit">Entrar</button>
+      </form>
+      <form id="signUpForm" class="auth-form" hidden>
+        <label class="field"><span>E-mail</span><input id="signUpEmail" type="email" autocomplete="email" required /></label>
+        <label class="field"><span>Senha</span><input id="signUpPassword" type="password" autocomplete="new-password" minlength="6" required /></label>
+        <label class="field"><span>Confirmar senha</span><input id="signUpPassword2" type="password" autocomplete="new-password" minlength="6" required /></label>
+        <button class="primary auth-submit" type="submit">Criar minha conta</button>
+        <small>Por padrão, o Supabase hospedado exige confirmação do e-mail.</small>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div class="app-shell" id="appShell" hidden>
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><div class="brand-mark">S</div><div><strong>Santos Estudos</strong><span>Preparação inteligente</span></div></div>
+    <nav id="nav"></nav>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <button class="mobile-menu" id="menuBtn">☰</button>
+      <div><h1>Concurso Prefeitura de Santos</h1><p>Plataforma pessoal de preparação</p></div>
+      <div class="cloud-user"><div><span id="syncStatus">Nuvem</span><small id="userEmail"></small></div><button class="secondary" id="logoutBtn">Sair</button></div>
+      <select id="cargoSelect"></select>
+    </header>
+    <div class="content" id="content"></div>
+  </main>
+</div>
+<script type="module" src="./app.js"></script>
+</body>
+</html>
