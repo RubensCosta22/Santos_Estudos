@@ -21,37 +21,29 @@ export async function getSession(){
   return { session:data?.session ?? null, error }
 }
 
-export async function signIn(email,password){
-  return supabase.auth.signInWithPassword({ email, password })
-}
-
+export async function signIn(email,password){ return supabase.auth.signInWithPassword({ email, password }) }
 export async function signUp(email,password){
-  return supabase.auth.signUp({
-    email,
-    password,
-    options:{ emailRedirectTo: window.location.origin }
-  })
+  return supabase.auth.signUp({ email, password, options:{ emailRedirectTo: window.location.origin } })
 }
-
 export async function signOut(){ return supabase.auth.signOut() }
-
-export function onAuthStateChange(callback){
-  return supabase.auth.onAuthStateChange((event,session)=>callback(event,session))
-}
+export function onAuthStateChange(callback){ return supabase.auth.onAuthStateChange((event,session)=>callback(event,session)) }
 
 export async function fetchUserState(userId){
-  const { data, error } = await supabase
-    .from('user_state')
-    .select('state, updated_at')
-    .eq('user_id',userId)
-    .maybeSingle()
+  const { data, error } = await supabase.from('user_state').select('state, updated_at').eq('user_id',userId).maybeSingle()
   if(error) throw error
   return data ?? null
 }
-
 export async function saveUserState(userId,state){
-  const { error } = await supabase
-    .from('user_state')
-    .upsert({ user_id:userId, state, updated_at:new Date().toISOString() },{ onConflict:'user_id' })
+  const { error } = await supabase.from('user_state').upsert({ user_id:userId, state, updated_at:new Date().toISOString() },{ onConflict:'user_id' })
+  if(error) throw error
+}
+
+export async function fetchTranspetroState(userId){
+  const { data, error } = await supabase.from('transpetro_state').select('state, updated_at').eq('user_id',userId).maybeSingle()
+  if(error) throw error
+  return data ?? null
+}
+export async function saveTranspetroState(userId,state){
+  const { error } = await supabase.from('transpetro_state').upsert({ user_id:userId, state, updated_at:new Date().toISOString() },{ onConflict:'user_id' })
   if(error) throw error
 }
