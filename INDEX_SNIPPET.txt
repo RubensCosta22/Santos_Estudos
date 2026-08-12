@@ -1,0 +1,3 @@
+Adicionar antes de </body> no index.html:
+
+<script type="module" src="./transpetro-questions-addon.js"></script>
