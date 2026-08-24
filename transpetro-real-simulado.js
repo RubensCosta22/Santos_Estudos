@@ -6,58 +6,59 @@ let historical=[],autoral=[],pool=[],root=null,timer=null
 let state={usedIds:[],results:[],quiz:null}
 const esc=(v='')=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))
 const fmt=s=>{s=Math.max(0,Math.floor(s));return `${String(Math.floor(s/3600)).padStart(2,'0')}:${String(Math.floor((s%3600)/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`}
-const shuffle=a=>[...a].sort(()=>Math.random()-.5), qById=id=>pool.find(q=>q.uid===id), typeOf=q=>q.area==='Português'?'pt':q.area==='Inglês'?'en':'spec'
-const contextRefPt=/\b(texto|parágrafo|paragrafos|parágrafos|versos?|trecho|poema|fragmento|passagem|charge|imagem|figura|gráfico|grafico|tabela|anúncio|anuncio|linhas?\s*\d+|autor(?:a)?|narrador(?:a)?|personagem)\b/i
-const contextRefEn=/\b(text|paragraph|passage|excerpt|poem|verse|line\s*\d+|lines?\s*\d+|figure|chart|table|image|advertisement|author|writer|speaker|narrator|according to|the word|the expression|the sentence)\b/i
-function malformedMatching(q){
- const stem=String(q?.stem||'')
- const opts=Object.values(q?.options||{}).map(String)
- const labels=[...stem.matchAll(/(?:^|\n)\s*([P-Z])\s*[–—-]/g)].map(m=>m[1])
- if(labels.length<2||!opts.length)return false
- const associationLike=opts.filter(o=>/(?:^|[,;])\s*(?:I{1,3}|IV|V|VI{0,3}|IX|X)\s*[–—-]\s*[P-Z]/i.test(o))
- if(associationLike.length<Math.ceil(opts.length/2))return false
- return associationLike.some(o=>{
-  const mentioned=new Set([...o.matchAll(/[–—-]\s*([P-Z])\b/g)].map(m=>m[1]))
-  return labels.some(l=>!mentioned.has(l))
- })
+const shuffle=a=>[...a].sort(()=>Math.random()-.5)
+const qById=id=>pool.find(q=>q.uid===id)
+const typeOf=q=>q.area==='Português'?'pt':q.area==='Inglês'?'en':'spec'
+
+const SOURCE_BY_YEAR={
+  2011:{
+    exam:'https://www.qconcursos.com/questoes-de-concursos/provas/cesgranrio-2011-transpetro-administrador-junior/questoes',
+    ptTitle:'Um pouco de silêncio — Lya Luft',
+    enTitle:'Model copes with chaos to deliver relief — Rachel Ehrenberg'
+  },
+  2012:{
+    exam:'https://www.qconcursos.com/questoes-de-concursos/provas/cesgranrio-2012-transpetro-administrador-junior/questoes',
+    pdf:'https://arquivos.qconcursos.com/prova/arquivo_prova/28573/cesgranrio-2012-transpetro-administrador-junior-prova.pdf',
+    ptTitle:'Science fiction — Carlos Drummond de Andrade',
+    enTitle:'Safety Meeting Presentation'
+  },
+  2023:{
+    exam:'https://www.qconcursos.com/questoes-de-concursos/provas/cesgranrio-2023-transpetro-profissional-transpetro-de-nivel-superior-junior-enfase-1-administracao/questoes',
+    pdf:'https://arquivos.qconcursos.com/prova/arquivo_prova/101215/cesgranrio-2023-transpetro-profissional-transpetro-de-nivel-superior-junior-enfase-1-administracao-prova.pdf',
+    ptTitle:'À moda brasileira — Lygia Fagundes Telles',
+    enTitle:'How space technology is bringing green wins for transport'
+  }
 }
-function incomplete(q){
- if(q?.origin!=='Questão real Cesgranrio')return false
- const stem=String(q.stem||'')
- const missingContext=!q.context&&((q.area==='Inglês'?contextRefEn:contextRefPt).test(stem))
- return missingContext||Boolean(q.visual)||malformedMatching(q)
+
+const contextRefPt=/\b(texto|parágrafo|parágrafos|versos?|trecho|poema|fragmento|passagem|charge|imagem|figura|gráfico|tabela|anúncio|autor(?:a)?|narrador(?:a)?|personagem|estrofe)\b/i
+const contextRefEn=/\b(text|paragraph|passage|excerpt|poem|verse|lines?|figure|chart|table|image|advertisement|author|writer|speaker|narrator|according to|the word|the expression|the sentence|fragment)\b/i
+const yearOf=q=>Number(q.year||q.examYear||q.exam_year||q.ano||String(q.source||'').match(/20(?:11|12|23)/)?.[0]||0)
+function inferredYear(q){
+ const y=yearOf(q);if(SOURCE_BY_YEAR[y])return y
+ const s=String(q.stem||'')
+ if(/Olavo Bilac|Lácio|quase.*susto|narradora|sepultura/i.test(s)||/space technology|satellite|Earth Observation|terrestrial technologies/i.test(s))return 2023
+ if(/marciano|Science fiction|impossibilidade humana/i.test(s)||/OSHA|working safely|workplace safe|Safety Meeting/i.test(s))return 2012
+ if(/sossego|silêncio|manada|hamsters|quietude/i.test(s)||/humanitarian aid|perishable supplies|fragile networks|Anna Nagurney|chaos to deliver relief/i.test(s))return 2011
+ return 0
 }
-const eligible=q=>q&&!incomplete(q)
+function verifiedSource(q){const y=inferredYear(q),src=SOURCE_BY_YEAR[y];if(!src)return null;return{year:y,url:src.pdf||src.exam,fallback:src.exam,title:q.area==='Português'?src.ptTitle:q.area==='Inglês'?src.enTitle:`Prova Transpetro ${y}`}}
+function needsContext(q){if(q?.origin!=='Questão real Cesgranrio')return false;const s=String(q.stem||'');return !q.context&&((q.area==='Inglês'?contextRefEn:contextRefPt).test(s)||Boolean(q.visual))}
+function eligible(q){if(!q)return false;if(!needsContext(q))return true;return Boolean(verifiedSource(q))}
 function loadState(){try{state={...state,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch{}}
 function persist(){localStorage.setItem(KEY,JSON.stringify(state))}
-async function normalize(){
- const h=await loadTranspetroQuestions(),a=await loadAutoralQuestions()
- historical=(h?.questions||[]).map(q=>({...q,uid:`H:${q.id}`,origin:'Questão real Cesgranrio'}))
- autoral=(a||[]).map(q=>({...q,uid:`A:${q.id}`,origin:'Questão autoral calibrada Cesgranrio'}))
- pool=[...historical,...autoral]
- repairActiveQuiz()
-}
-function repairActiveQuiz(){
- const z=state.quiz;if(!z||z.finished||!Array.isArray(z.ids))return
- const reserved=new Set([...state.usedIds,...z.ids]);let changed=false
- for(let i=0;i<z.ids.length;i++){
-  const current=qById(z.ids[i]);if(eligible(current))continue
-  const kind=current?typeOf(current):(i<10?'pt':i<20?'en':'spec')
-  const replacement=pool.find(q=>eligible(q)&&typeOf(q)===kind&&!reserved.has(q.uid))
-  if(replacement){delete z.answers?.[z.ids[i]];reserved.delete(z.ids[i]);z.ids[i]=replacement.uid;reserved.add(replacement.uid);changed=true}
- }
- if(changed)persist()
-}
+async function normalize(){const h=await loadTranspetroQuestions(),a=await loadAutoralQuestions();historical=(h?.questions||[]).map(q=>({...q,uid:`H:${q.id}`,origin:'Questão real Cesgranrio'}));autoral=(a||[]).map(q=>({...q,uid:`A:${q.id}`,origin:'Questão autoral calibrada Cesgranrio'}));pool=[...historical,...autoral];repairActiveQuiz()}
+function repairActiveQuiz(){const z=state.quiz;if(!z||z.finished||!Array.isArray(z.ids))return;const reserved=new Set([...state.usedIds,...z.ids]);let changed=false;for(let i=0;i<z.ids.length;i++){const current=qById(z.ids[i]);if(eligible(current))continue;const kind=current?typeOf(current):(i<10?'pt':i<20?'en':'spec');const replacement=pool.find(q=>eligible(q)&&typeOf(q)===kind&&!reserved.has(q.uid));if(replacement){delete z.answers?.[z.ids[i]];reserved.delete(z.ids[i]);z.ids[i]=replacement.uid;reserved.add(replacement.uid);changed=true}}if(changed)persist()}
 function available(){const u=new Set(state.usedIds);return pool.filter(q=>eligible(q)&&!u.has(q.uid))}
 function remaining(){const a=available();return{pt:a.filter(q=>typeOf(q)==='pt').length,en:a.filter(q=>typeOf(q)==='en').length,spec:a.filter(q=>typeOf(q)==='spec').length,total:a.length}}
 function possible(){const r=remaining();return Math.min(Math.floor(r.pt/10),Math.floor(r.en/10),Math.floor(r.spec/50))}
-function css(){if(document.querySelector('#tprm-css'))return;const s=document.createElement('style');s.id='tprm-css';s.textContent=`.tprm-tab{border-color:#166534!important;color:#166534!important;font-weight:900!important}.tprm-overlay{position:fixed;inset:0;z-index:11000;background:#f8fafc;color:#0f172a;overflow:auto}.tprm-top{position:sticky;top:0;z-index:5;background:#07111f;color:#fff;padding:14px 22px;display:flex;justify-content:space-between;align-items:center;gap:12px}.tprm-wrap{max-width:1180px;margin:auto;padding:22px}.tprm-card,.tprm-metric{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:18px;margin-bottom:14px}.tprm-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.tprm-metric strong{display:block;font-size:25px}.tprm-btn{border:1px solid #cbd5e1;background:#fff;border-radius:9px;padding:9px 13px;font-weight:800;cursor:pointer}.tprm-btn.primary{background:#166534;color:#fff;border-color:#166534}.tprm-actions{display:flex;gap:8px;flex-wrap:wrap}.tprm-badge{display:inline-block;padding:4px 8px;border-radius:999px;background:#dcfce7;color:#166534;font-size:10px;font-weight:900;margin-right:5px}.tprm-muted{font-size:12px;color:#64748b}.tprm-stem{font-size:15px;line-height:1.6;white-space:pre-wrap;margin:14px 0}.tprm-context{background:#f8fafc;border-left:4px solid #94a3b8;padding:13px;border-radius:8px;white-space:pre-wrap}.tprm-option{display:flex;gap:10px;border:1px solid #e2e8f0;border-radius:10px;padding:11px;margin:8px 0}.tprm-option.selected{border-color:#2563eb;background:#eff6ff}.tprm-nav{display:grid;grid-template-columns:repeat(10,1fr);gap:5px;margin-top:15px}.tprm-nav button{padding:7px 2px;border:1px solid #cbd5e1;background:#fff;border-radius:6px}.tprm-nav .done{background:#dcfce7}.tprm-nav .current{outline:2px solid #2563eb}.tprm-clock{font-size:22px;font-weight:900}.tprm-row{display:grid;grid-template-columns:1fr auto;gap:12px;padding:9px 0;border-top:1px solid #eef2f7}.tprm-note{padding:10px 12px;border-radius:10px;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;font-size:12px}@media(max-width:800px){.tprm-grid{grid-template-columns:1fr 1fr}.tprm-wrap{padding:12px}.tprm-nav{grid-template-columns:repeat(7,1fr)}}`;document.head.appendChild(s)}
+function css(){if(document.querySelector('#tprm-css'))return;const s=document.createElement('style');s.id='tprm-css';s.textContent=`.tprm-tab{border-color:#166534!important;color:#166534!important;font-weight:900!important}.tprm-overlay{position:fixed;inset:0;z-index:11000;background:#f8fafc;color:#0f172a;overflow:auto}.tprm-top{position:sticky;top:0;z-index:5;background:#07111f;color:#fff;padding:14px 22px;display:flex;justify-content:space-between;align-items:center;gap:12px}.tprm-wrap{max-width:1180px;margin:auto;padding:22px}.tprm-card,.tprm-metric{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:18px;margin-bottom:14px}.tprm-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.tprm-metric strong{display:block;font-size:25px}.tprm-btn{border:1px solid #cbd5e1;background:#fff;border-radius:9px;padding:9px 13px;font-weight:800;cursor:pointer}.tprm-btn.primary{background:#166534;color:#fff;border-color:#166534}.tprm-actions{display:flex;gap:8px;flex-wrap:wrap}.tprm-badge{display:inline-block;padding:4px 8px;border-radius:999px;background:#dcfce7;color:#166534;font-size:10px;font-weight:900;margin-right:5px}.tprm-muted{font-size:12px;color:#64748b}.tprm-stem{font-size:15px;line-height:1.6;white-space:pre-wrap;margin:14px 0}.tprm-context{background:#f8fafc;border-left:4px solid #94a3b8;padding:13px;border-radius:8px;white-space:pre-wrap}.tprm-source{background:#eef6ff;border:1px solid #bfdbfe;border-radius:12px;padding:13px;margin:12px 0}.tprm-source strong{display:block;margin-bottom:5px}.tprm-source a{display:inline-block;margin-top:7px;background:#1d4ed8;color:#fff!important;text-decoration:none;padding:8px 11px;border-radius:8px;font-weight:800}.tprm-option{display:flex;gap:10px;border:1px solid #e2e8f0;border-radius:10px;padding:11px;margin:8px 0}.tprm-option.selected{border-color:#2563eb;background:#eff6ff}.tprm-nav{display:grid;grid-template-columns:repeat(10,1fr);gap:5px;margin-top:15px}.tprm-nav button{padding:7px 2px;border:1px solid #cbd5e1;background:#fff;border-radius:6px}.tprm-nav .done{background:#dcfce7}.tprm-nav .current{outline:2px solid #2563eb}.tprm-clock{font-size:22px;font-weight:900}.tprm-note{padding:10px 12px;border-radius:10px;background:#ecfdf5;border:1px solid #a7f3d0;color:#166534;font-size:12px}@media(max-width:800px){.tprm-grid{grid-template-columns:1fr 1fr}.tprm-wrap{padding:12px}.tprm-nav{grid-template-columns:repeat(7,1fr)}}`;document.head.appendChild(s)}
 function open(){if(root)return;root=document.createElement('div');root.className='tprm-overlay';document.body.appendChild(root);render()}
 function close(){clearInterval(timer);root?.remove();root=null}
 function render(){if(!root)return;clearInterval(timer);root.innerHTML=`<div class="tprm-top"><div><strong>Transpetro 2026 · Simulado Completo</strong><div class="tprm-muted">70 questões · padrão Cesgranrio · sem repetição</div></div><div class="tprm-actions">${state.quiz&&!state.quiz.finished?'<span class="tprm-clock" id="clock"></span>':''}<button class="tprm-btn" data-close>Voltar</button></div></div><div class="tprm-wrap">${state.quiz?quiz():home()}</div>`;bind();if(state.quiz&&!state.quiz.finished)clock()}
-function home(){const r=remaining(),p=possible(),blocked=pool.filter(incomplete).length;return `<div class="tprm-grid"><div class="tprm-metric"><small>Banco combinado</small><strong>${pool.length}</strong><span>${historical.length} reais + ${autoral.length} autorais</span></div><div class="tprm-metric"><small>Inéditas utilizáveis</small><strong>${r.total}</strong></div><div class="tprm-metric"><small>Simulados disponíveis</small><strong>${p}</strong></div><div class="tprm-metric"><small>Realizados</small><strong>${state.results.length}</strong></div></div><div class="tprm-card"><span class="tprm-badge">SIMULADO COMPLETO</span><h2>Transpetro — Administração</h2><p><b>70 questões · 10 Português · 10 Inglês · 50 Específicas · 4h30.</b></p><p>Questões usadas em um simulado concluído não aparecem nos próximos.</p><div class="tprm-note"><b>Controle de integridade:</b> ${blocked} questão(ões) históricas incompletas foram retiradas automaticamente. O filtro agora verifica textos-base ausentes em Português e Inglês e também questões de associação cuja extração perdeu itens.</div><p>Disponíveis agora: <b>${r.pt}</b> Português · <b>${r.en}</b> Inglês · <b>${r.spec}</b> Específicas.</p><button class="tprm-btn primary" id="start" ${p<1?'disabled':''}>Iniciar simulado</button>${p<1?'<p>Banco insuficiente para outro simulado sem repetição.</p>':''}</div>`}
+function home(){const r=remaining(),p=possible(),linked=pool.filter(q=>needsContext(q)&&verifiedSource(q)).length,blocked=pool.filter(q=>needsContext(q)&&!verifiedSource(q)).length;return `<div class="tprm-grid"><div class="tprm-metric"><small>Banco combinado</small><strong>${pool.length}</strong></div><div class="tprm-metric"><small>Inéditas utilizáveis</small><strong>${r.total}</strong></div><div class="tprm-metric"><small>Contextos recuperados</small><strong>${linked}</strong></div><div class="tprm-metric"><small>Bloqueadas</small><strong>${blocked}</strong></div></div><div class="tprm-card"><span class="tprm-badge">SIMULADO COMPLETO</span><h2>Transpetro — Administração</h2><p><b>70 questões · 10 Português · 10 Inglês · 50 Específicas · 4h30.</b></p><div class="tprm-note"><b>Auditoria aplicada:</b> questões de 2011, 2012 e 2023 que dependem de texto-base agora são vinculadas à prova pública correspondente. Questões realmente sem fonte verificável continuam fora do sorteio.</div><p>Disponíveis agora: <b>${r.pt}</b> Português · <b>${r.en}</b> Inglês · <b>${r.spec}</b> Específicas.</p><button class="tprm-btn primary" id="start" ${p<1?'disabled':''}>Iniciar simulado</button></div>`}
+function sourceHtml(q){if(q.context)return `<div class="tprm-context">${esc(q.context)}</div>`;if(!needsContext(q))return '';const src=verifiedSource(q);if(!src)return '';return `<div class="tprm-source"><strong>📄 Texto/elemento-base — prova pública de ${src.year}</strong><span>${esc(src.title)}. Esta questão depende do material associado da prova original.</span><br><a href="${esc(src.url)}" target="_blank" rel="noreferrer">Abrir texto-base / prova original</a>${src.fallback&&src.fallback!==src.url?` <a href="${esc(src.fallback)}" target="_blank" rel="noreferrer">Abrir questões da prova</a>`:''}</div>`}
 function start(){const a=available(),pt=shuffle(a.filter(q=>typeOf(q)==='pt')).slice(0,10),en=shuffle(a.filter(q=>typeOf(q)==='en')).slice(0,10),sp=shuffle(a.filter(q=>typeOf(q)==='spec')).slice(0,50);if(pt.length<10||en.length<10||sp.length<50)return;state.quiz={ids:[...pt,...en,...sp].map(q=>q.uid),index:0,answers:{},startedAt:Date.now(),finished:false};persist();render()}
-function quiz(){const z=state.quiz;if(z.finished)return result();let q=qById(z.ids[z.index]);if(!eligible(q)){repairActiveQuiz();q=qById(z.ids[z.index])}if(!q)return `<div class="tprm-card"><h3>Questão indisponível</h3><p>Não foi possível encontrar uma substituta válida para esta posição. Volte ao início e gere um novo simulado.</p></div>`;const sel=z.answers[q.uid]||'';return `<div class="tprm-card"><span class="tprm-badge">${z.index+1}/70</span><span class="tprm-badge">${esc(q.area)}</span><span class="tprm-badge">${esc(q.origin)}</span>${q.context?`<div class="tprm-context">${esc(q.context)}</div>`:''}<div class="tprm-stem">${esc(q.stem)}</div>${letters.filter(l=>q.options?.[l]!=null).map(l=>`<label class="tprm-option ${sel===l?'selected':''}"><input type="radio" name="ans" value="${l}" ${sel===l?'checked':''}><b>${l}</b> ${esc(q.options[l])}</label>`).join('')}<div class="tprm-actions"><button class="tprm-btn" data-prev>Anterior</button><button class="tprm-btn" data-next>Próxima</button><button class="tprm-btn primary" id="finish">Finalizar</button></div><div class="tprm-nav">${z.ids.map((id,i)=>`<button data-jump="${i}" class="${z.answers[id]?'done':''} ${i===z.index?'current':''}">${i+1}</button>`).join('')}</div></div>`}
+function quiz(){const z=state.quiz;if(z.finished)return result();let q=qById(z.ids[z.index]);if(!eligible(q)){repairActiveQuiz();q=qById(z.ids[z.index])}if(!q)return `<div class="tprm-card"><h3>Questão indisponível</h3></div>`;const sel=z.answers[q.uid]||'';return `<div class="tprm-card"><span class="tprm-badge">${z.index+1}/70</span><span class="tprm-badge">${esc(q.area)}</span><span class="tprm-badge">${esc(q.origin)}</span>${sourceHtml(q)}<div class="tprm-stem">${esc(q.stem)}</div>${letters.filter(l=>q.options?.[l]!=null).map(l=>`<label class="tprm-option ${sel===l?'selected':''}"><input type="radio" name="ans" value="${l}" ${sel===l?'checked':''}><b>${l}</b> ${esc(q.options[l])}</label>`).join('')}<div class="tprm-actions"><button class="tprm-btn" data-prev>Anterior</button><button class="tprm-btn" data-next>Próxima</button><button class="tprm-btn primary" id="finish">Finalizar</button></div><div class="tprm-nav">${z.ids.map((id,i)=>`<button data-jump="${i}" class="${z.answers[id]?'done':''} ${i===z.index?'current':''}">${i+1}</button>`).join('')}</div></div>`}
 function finish(auto=false){const z=state.quiz;if(!auto&&!confirm('Finalizar o simulado e ver o resultado?'))return;z.finished=true;let c=0;for(const id of z.ids){const q=qById(id);if(q&&z.answers[id]===q.answer)c++}state.usedIds=[...new Set([...state.usedIds,...z.ids])];state.results.push({at:new Date().toISOString(),correct:c,total:70,elapsed:Math.round((Date.now()-z.startedAt)/1000)});persist();render()}
 function result(){const z=state.quiz;let c=0;for(const id of z.ids){const q=qById(id);if(q&&z.answers[id]===q.answer)c++}return `<div class="tprm-card"><h2>Resultado</h2><div class="tprm-grid"><div class="tprm-metric"><small>Acertos</small><strong>${c}/70</strong></div><div class="tprm-metric"><small>Aproveitamento</small><strong>${Math.round(c/70*100)}%</strong></div></div><button class="tprm-btn" id="done">Voltar aos simulados</button></div>`}
 function clock(){const tick=()=>{const left=Math.max(0,EXAM_SECONDS-Math.floor((Date.now()-state.quiz.startedAt)/1000)),el=document.querySelector('#clock');if(el)el.textContent=fmt(left);if(left<=0)finish(true)};tick();timer=setInterval(tick,1000)}
