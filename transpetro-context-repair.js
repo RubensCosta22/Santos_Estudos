@@ -1,5 +1,6 @@
-// Textos-base restaurados a partir das provas públicas da CESGRANRIO/Transpetro 2023.
-// O reparo é aplicado no DOM do simulado e serve como fonte central para questões compartilhadas.
+// Textos-base restaurados para o simulado Transpetro 2023.
+// Regra: nada de links externos durante a prova. O texto aparece dentro do simulado,
+// antes da primeira questão que o utiliza, com indicação do intervalo de questões.
 
 const TEXTS_2023 = {
   pt: `À moda brasileira
@@ -42,27 +43,41 @@ Available at: CGI, “How space technology is bringing green wins for transport�
 
 const pt2023 = /(Olavo Bilac|Lácio|narradora|língua portuguesa|parágrafo\s*[1-9]|rodeios|gaguejar|cabecinha|sepultura|crônica)/i
 const en2023 = /(space technology|satellite|terrestrial technolog|earth observation|paragraph|fragment|connectivity|transport|vehicle|however|according to the text)/i
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))
+
+function groupInfo(card, area, matcher){
+  const overlay=card.closest('.tprm-overlay');
+  const current=Number(card.querySelector('.tprm-badge')?.textContent?.match(/\d+/)?.[0]||0);
+  // O banco sorteia 10 Português, 10 Inglês e 50 específicas. Para os textos de 2023,
+  // indicamos o bloco linguístico do simulado, preservando a leitura antes das questões.
+  if(area==='pt') return {label:'Texto para as questões de Português deste bloco',first:1,last:10,current};
+  return {label:'Text for the English questions in this block',first:11,last:20,current};
+}
 
 function repairVisibleQuestion(){
   const card=document.querySelector('.tprm-overlay .tprm-card');
-  if(!card || card.querySelector('[data-source-repaired]')) return;
+  if(!card) return;
+  const old=card.querySelector('.tprm-source');
   const badge=[...card.querySelectorAll('.tprm-badge')].map(x=>x.textContent).join(' ');
   if(!/Questão real Cesgranrio/i.test(badge)) return;
   const stem=card.querySelector('.tprm-stem');
   if(!stem) return;
   const txt=stem.textContent||'';
-  let context='';
-  if(/Português/i.test(badge)&&pt2023.test(txt)) context=TEXTS_2023.pt;
-  if(/Inglês/i.test(badge)&&en2023.test(txt)) context=TEXTS_2023.en;
+  let context='',area='';
+  if(/Português/i.test(badge)&&pt2023.test(txt)){context=TEXTS_2023.pt;area='pt'}
+  if(/Inglês/i.test(badge)&&en2023.test(txt)){context=TEXTS_2023.en;area='en'}
   if(!context) return;
-  const box=document.createElement('details');
+  old?.remove();
+  if(card.querySelector('[data-source-repaired]')) return;
+  const info=groupInfo(card,area);
+  const box=document.createElement('section');
   box.dataset.sourceRepaired='1';
-  box.open=true;
   box.className='tprm-context';
-  box.innerHTML=`<summary style="cursor:pointer;font-weight:900;margin-bottom:10px">📄 Texto-base da prova</summary><div style="white-space:pre-wrap;line-height:1.55">${context.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}</div>`;
+  box.style.margin='12px 0 18px';
+  box.innerHTML=`<div style="font-weight:900;margin-bottom:4px">📄 ${esc(info.label)}</div><div style="font-size:12px;color:#64748b;margin-bottom:12px">Leia o texto abaixo antes de responder às questões relacionadas. O material permanece dentro do simulado.</div><div style="white-space:pre-wrap;line-height:1.6">${esc(context)}</div>`;
   stem.before(box);
 }
 
 window.TRANSPETRO_VERIFIED_CONTEXTS_2023=TEXTS_2023;
 new MutationObserver(repairVisibleQuestion).observe(document.documentElement,{subtree:true,childList:true});
-setInterval(repairVisibleQuestion,400);
+setInterval(repairVisibleQuestion,250);
