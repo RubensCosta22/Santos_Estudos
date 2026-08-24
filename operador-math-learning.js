@@ -19,9 +19,61 @@ const MATH_MODULES = [
   },
   {
     video:'https://www.youtube.com/results?search_query=porcentagem+razao+proporcao+regra+de+tres+matematica+basica+professor+ferretto',
-    label:'Porcentagem, razão e regra de três — aula básica',
-    example:['Exemplo: 25% de 200','25% quer dizer 25 de cada 100. Como 200 possui dois grupos de 100, teremos 25 + 25.','Outra forma: 25% = 25/100 = 1/4. Então basta dividir 200 por 4.','200 ÷ 4 = 50. Portanto, 25% de 200 = 50.'],
-    guided:{q:'Se 4 cadernos custam R$ 20, quanto custam 6?',h:['Descubra primeiro quanto custa apenas 1 caderno.','Se 4 custam 20, faça 20 ÷ 4 = 5. Cada caderno custa R$ 5.','Agora queremos 6 cadernos: 6 × 5 = 30.'],a:'R$ 30'}
+    label:'Porcentagem, razão, proporção e regra de três — aula básica',
+    lessons:[
+      {
+        title:'A. Porcentagem — entender antes de calcular',
+        why:'Porcentagem significa “de cada 100”. O símbolo % não é uma operação misteriosa: 25% significa 25 em cada 100; 50% significa metade; 10% significa 10 em cada 100.',
+        example:[
+          'Exemplo: quanto é 25% de 200?',
+          '25% quer dizer 25 de cada 100.',
+          'O número 200 tem dois grupos de 100. Então pegamos 25 no primeiro grupo e 25 no segundo.',
+          '25 + 25 = 50. Portanto, 25% de 200 = 50.',
+          'Outro jeito: 25% = 25/100. Simplificando por 25, temos 1/4. Então 25% de um número é a mesma coisa que dividir esse número por 4.',
+          '200 ÷ 4 = 50.'
+        ],
+        guided:{q:'Quanto é 10% de 350?',h:['10% significa 10 de cada 100.','Um atalho seguro para 10% é dividir o número por 10.','350 ÷ 10 = 35.'],a:'35'}
+      },
+      {
+        title:'B. Razão — comparar duas quantidades',
+        why:'Razão é uma comparação por divisão. Quando dizemos “2 para 5”, estamos comparando 2 com 5. Podemos escrever 2:5 ou 2/5. A ordem importa: 2/5 não é igual a 5/2.',
+        example:[
+          'Exemplo: uma equipe tem 6 homens e 9 mulheres. Qual é a razão de homens para mulheres?',
+          'A pergunta diz “homens para mulheres”. Então colocamos homens primeiro: 6/9.',
+          'Podemos simplificar dividindo os dois números por 3: 6 ÷ 3 = 2 e 9 ÷ 3 = 3.',
+          'A razão simplificada é 2/3, ou 2:3.',
+          'Isso significa que, mantendo essa mesma comparação, para cada 2 homens há 3 mulheres.'
+        ],
+        guided:{q:'Há 8 crianças e 12 adultos. Qual é a razão de crianças para adultos, simplificada?',h:['A ordem pedida é crianças primeiro e adultos depois: 8/12.','Procure um número que divida 8 e 12. O 4 divide os dois.','8 ÷ 4 = 2 e 12 ÷ 4 = 3.'],a:'2/3 ou 2:3'}
+      },
+      {
+        title:'C. Proporção — duas razões que representam a mesma relação',
+        why:'Proporção acontece quando duas razões são equivalentes. É como dizer que 1/2 e 2/4 representam a mesma quantidade. A ideia é manter a mesma relação enquanto os números aumentam ou diminuem juntos.',
+        example:[
+          'Exemplo: 2/3 = 4/6 é uma proporção?',
+          'Sim. De 2 para 4 multiplicamos por 2. De 3 para 6 também multiplicamos por 2.',
+          'Como numerador e denominador foram multiplicados pelo mesmo número, a relação foi mantida.',
+          'Também podemos conferir cruzando: 2 × 6 = 12 e 3 × 4 = 12. Como os produtos são iguais, as razões são proporcionais.'
+        ],
+        guided:{q:'3/5 e 9/15 formam uma proporção?',h:['Veja o que aconteceu de 3 para 9: multiplicou por 3.','Veja o que aconteceu de 5 para 15: também multiplicou por 3.','Como os dois lados mudaram pelo mesmo fator, a relação foi mantida.'],a:'Sim, 3/5 = 9/15.'}
+      },
+      {
+        title:'D. Regra de três simples — descobrir o número que falta',
+        why:'Regra de três é usada quando temos três valores conhecidos e queremos descobrir um quarto valor mantendo a mesma relação. Antes de montar a conta, pergunte: “se uma quantidade aumenta, a outra também aumenta?” Se sim, é um caso direto como preço e quantidade de itens.',
+        example:[
+          'Exemplo: 4 cadernos custam R$ 20. Quanto custam 6 cadernos?',
+          'Primeiro organize os dados na mesma ordem: 4 cadernos → R$ 20; 6 cadernos → R$ x.',
+          'Por que colocamos x? Porque x representa o valor que ainda não sabemos.',
+          'Como mais cadernos custam mais dinheiro, as grandezas aumentam juntas. É uma relação diretamente proporcional.',
+          'Método mais fácil para começar: descubra o valor de 1 caderno. Se 4 custam 20, faça 20 ÷ 4 = 5. Cada caderno custa R$ 5.',
+          'Agora calcule 6 cadernos: 6 × 5 = 30. Resposta: R$ 30.',
+          'Método da multiplicação cruzada: 4/20 = 6/x. Multiplique cruzado: 4 × x = 20 × 6. Então 4x = 120.',
+          'Agora precisamos deixar x sozinho. Como x está multiplicado por 4, fazemos a operação contrária: 120 ÷ 4 = 30. Logo, x = 30.',
+          'Por que podemos dividir por 4? Porque 4x quer dizer 4 vezes x. Se 4 vezes alguma coisa dá 120, essa coisa é 120 dividido por 4.'
+        ],
+        guided:{q:'3 garrafas custam R$ 18. Quanto custam 5 garrafas?',h:['Organize: 3 garrafas → R$ 18; 5 garrafas → R$ x.','Comece pelo valor de 1 garrafa: 18 ÷ 3 = 6.','Se cada garrafa custa R$ 6, faça 5 × 6.'],a:'R$ 30'}
+      }
+    ]
   },
   {
     video:'https://www.youtube.com/results?search_query=media+aritmetica+medidas+perimetro+area+matematica+basica+aula',
@@ -56,18 +108,15 @@ const MATH_MODULES = [
 ]
 
 const escMath=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))
+const guidedHtml=g=>`<div class="math-hints">${g.h.map((x,i)=>`<details><summary>Dica ${i+1}</summary><p>${escMath(x)}</p></details>`).join('')}<details class="math-answer"><summary>Conferir resposta</summary><p><b>${escMath(g.a)}</b></p></details></div>`
 
 function learningHtml(m){
-  return `<div class="math-learning-flow">
-    <section class="math-step learn"><span>🎥 1. Aprenda</span><p>Assista primeiro à explicação. Pause o vídeo e refaça as contas no papel.</p><a class="math-video-btn" href="${m.video}" target="_blank" rel="noreferrer">▶ Ver explicação em vídeo</a><small>${escMath(m.label)}</small></section>
-    <section class="math-step"><span>✏️ 2. Veja um exemplo resolvido — sem pular etapas</span><ol>${m.example.map(x=>`<li>${escMath(x)}</li>`).join('')}</ol></section>
-    <section class="math-step guided"><span>🧮 3. Resolva comigo</span><p><b>${escMath(m.guided.q)}</b></p><div class="math-hints">${m.guided.h.map((x,i)=>`<details><summary>Dica ${i+1}</summary><p>${escMath(x)}</p></details>`).join('')}<details class="math-answer"><summary>Conferir resposta</summary><p><b>${escMath(m.guided.a)}</b></p></details></div></section>
-    <section class="math-step solo"><span>🎯 4. Agora sozinha</span><p>Resolva de 3 a 5 questões desse assunto. Abaixo de 70% de acertos, volte ao vídeo e refaça o exemplo.</p><button class="math-go-questions" type="button">Ir para Questões</button></section>
-  </div>`
+  const lessonHtml=m.lessons?`<section class="math-step"><span>✏️ 2. Aprenda cada parte do módulo — uma por vez</span><p>Este módulo reúne assuntos diferentes. Não vamos misturá-los: estude um bloco, faça o exercício guiado e só depois passe ao próximo.</p>${m.lessons.map((l,i)=>`<div class="math-sublesson"><h4>${escMath(l.title)}</h4><p class="math-why"><b>O que isso quer dizer?</b> ${escMath(l.why)}</p><div class="math-example"><b>Exemplo resolvido — sem pular etapas</b><ol>${l.example.map(x=>`<li>${escMath(x)}</li>`).join('')}</ol></div><div class="math-guided-inline"><b>🧮 Agora resolva comigo</b><p>${escMath(l.guided.q)}</p>${guidedHtml(l.guided)}</div></div>`).join('')}</section>`:`<section class="math-step"><span>✏️ 2. Veja um exemplo resolvido — sem pular etapas</span><ol>${m.example.map(x=>`<li>${escMath(x)}</li>`).join('')}</ol></section><section class="math-step guided"><span>🧮 3. Resolva comigo</span><p><b>${escMath(m.guided.q)}</b></p>${guidedHtml(m.guided)}</section>`
+  return `<div class="math-learning-flow"><section class="math-step learn"><span>🎥 1. Aprenda</span><p>Assista primeiro à explicação. Pause o vídeo e refaça as contas no papel.</p><a class="math-video-btn" href="${m.video}" target="_blank" rel="noreferrer">▶ Ver explicação em vídeo</a><small>${escMath(m.label)}</small></section>${lessonHtml}<section class="math-step solo"><span>🎯 ${m.lessons?'3':'4'}. Agora sozinha</span><p>Resolva de 3 a 5 questões de CADA assunto estudado. Abaixo de 70% de acertos, volte ao bloco correspondente e refaça o exemplo.</p><button class="math-go-questions" type="button">Ir para Questões</button></section></div>`
 }
 
 function operadorAtivo(){return document.querySelector('#cargoSelect')?.value==='operador'}
-function patchStudy(){if(!operadorAtivo())return;const pageTitle=document.querySelector('.section-header h2')?.textContent||'';if(!/Matemática.*Raciocínio Lógico/i.test(pageTitle))return;[...document.querySelectorAll('.study-module')].forEach((card,i)=>{const m=MATH_MODULES[i];if(!m||card.dataset.mathV2==='1')return;const summary=card.querySelector('summary>div');if(summary)summary.insertAdjacentHTML('beforeend','<span class="math-method-badge">🎥 Método em 4 etapas</span>');const body=card.querySelector('.study-module-body');if(body)body.insertAdjacentHTML('afterbegin',learningHtml(m));card.dataset.mathV2='1'})}
+function patchStudy(){if(!operadorAtivo())return;const pageTitle=document.querySelector('.section-header h2')?.textContent||'';if(!/Matemática.*Raciocínio Lógico/i.test(pageTitle))return;[...document.querySelectorAll('.study-module')].forEach((card,i)=>{const m=MATH_MODULES[i];if(!m||card.dataset.mathV3==='1')return;card.querySelectorAll('.math-learning-flow,.math-method-badge').forEach(x=>x.remove());const summary=card.querySelector('summary>div');if(summary)summary.insertAdjacentHTML('beforeend','<span class="math-method-badge">🎥 Método em etapas</span>');const body=card.querySelector('.study-module-body');if(body)body.insertAdjacentHTML('afterbegin',learningHtml(m));card.dataset.mathV3='1'})}
 function topicVideo(topic){const t=topic.toLowerCase();if(t.includes('fraç')||t.includes('inteiro')||t.includes('racional'))return MATH_MODULES[0].video;if(t.includes('porcent')||t.includes('razão')||t.includes('propor')||t.includes('regra de três'))return MATH_MODULES[1].video;if(t.includes('média')||t.includes('medida')||t.includes('perímetro')||t.includes('área'))return MATH_MODULES[2].video;if(t.includes('tabela')||t.includes('gráfico'))return MATH_MODULES[3].video;if(t.includes('tempo')||t.includes('prazo')||t.includes('quantidade'))return MATH_MODULES[4].video;if(t.includes('proposi')||t.includes('conectivo')||t.includes('negação'))return MATH_MODULES[5].video;if(t.includes('sequência')||t.includes('padr')||t.includes('organização'))return MATH_MODULES[6].video;return 'https://www.youtube.com/results?search_query='+encodeURIComponent(topic+' matemática básica concursos aula')}
 function patchReview(){if(!operadorAtivo())return;document.querySelectorAll('.weak-topic-row').forEach(row=>{if(row.dataset.mathReviewV2==='1')return;const disc=row.querySelector('span')?.textContent||'';if(!/Matemática|Raciocínio Lógico/i.test(disc))return;const topic=row.querySelector('b')?.textContent||'';const a=document.createElement('a');a.className='math-review-video';a.target='_blank';a.rel='noreferrer';a.href=topicVideo(topic);a.textContent='▶ Ver explicação em vídeo';row.appendChild(a);row.dataset.mathReviewV2='1'})}
 function bindMathButtons(){document.querySelectorAll('.math-go-questions').forEach(btn=>{if(btn.dataset.mathBound==='1')return;btn.dataset.mathBound='1';btn.onclick=()=>[...document.querySelectorAll('#nav button')].find(b=>b.textContent.trim()==='Questões')?.click()})}
