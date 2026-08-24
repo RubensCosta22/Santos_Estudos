@@ -1,122 +1,70 @@
 // Trilha prática de Matemática do Operador Social.
-// Integra diretamente nos 7 módulos já renderizados pela disciplina.
+// Regra pedagógica: cada assunto do módulo recebe conceito simples, exemplo totalmente resolvido e exercício guiado.
 
 const MATH_MODULES = [
   {
     video:'https://www.youtube.com/watch?v=i2GEeGSrZ_E',
-    label:'Frações do zero — Professor Ferretto',
-    example:[
-      'Exemplo: 3/4 + 1/2',
-      'Antes da conta: o número de baixo (denominador) diz em quantas partes iguais o inteiro foi dividido. Em 3/4, o inteiro foi dividido em 4 partes e pegamos 3. Em 1/2, foi dividido em 2 partes e pegamos 1.',
-      'Por que não fazemos simplesmente 3 + 1 e 4 + 2? Porque quartos e metades são pedaços de tamanhos diferentes. Para somar, precisamos deixar os pedaços do mesmo tamanho.',
-      'Como transformar 1/2 em quartos: queremos que o número de baixo passe de 2 para 4. Como 2 × 2 = 4, multiplicamos TAMBÉM o número de cima por 2: 1 × 2 = 2. Portanto, 1/2 = 2/4. Não mudamos o valor da fração; apenas escrevemos a mesma quantidade de outro jeito.',
-      'Agora temos 3/4 + 2/4. Os pedaços têm o mesmo tamanho: todos são quartos. Então mantemos o 4 embaixo e contamos quantos quartos temos: 3 quartos + 2 quartos = 5 quartos. Resultado: 5/4.',
-      'O que significa 5/4? Significa cinco pedaços de tamanho 1/4. Quatro quartos formam 1 inteiro: 4/4 = 1. Sobra mais 1/4. Portanto, 5/4 = 1 + 1/4 = 1 1/4.',
-      'Como chegar a 1,25 sem calculadora: faça 5 ÷ 4. O 4 cabe 1 vez no 5; escreva 1 e sobra 1. Coloque a vírgula e acrescente um zero à sobra: vira 10. O 4 cabe 2 vezes em 10 (2 × 4 = 8); sobra 2. Acrescente outro zero: vira 20. O 4 cabe 5 vezes em 20. Assim, 5 ÷ 4 = 1,25.',
-      'Atalho útil: 1/4 = 0,25. Como 5/4 = 1 inteiro + 1/4, também podemos pensar 1 + 0,25 = 1,25.'
-    ],
-    guided:{q:'Quanto é 2/3 + 1/6?',h:['Primeiro precisamos deixar os denominadores iguais. Temos terços e sextos. Como 3 × 2 = 6, podemos transformar 2/3 em sextos.','Multiplique em cima e embaixo por 2: 2/3 = (2 × 2)/(3 × 2) = 4/6. A quantidade continua igual; só mudamos a forma de escrever.','Agora a conta é 4/6 + 1/6. Como os pedaços são todos sextos, mantenha o 6 e some apenas os pedaços: 4 + 1 = 5.'],a:'5/6'}
-  },
-  {
-    video:'https://www.youtube.com/results?search_query=porcentagem+razao+proporcao+regra+de+tres+matematica+basica+professor+ferretto',
-    label:'Porcentagem, razão, proporção e regra de três — aula básica',
+    label:'Inteiros, racionais e frações — matemática básica',
     lessons:[
-      {
-        title:'A. Porcentagem — entender antes de calcular',
-        why:'Porcentagem significa “de cada 100”. O símbolo % não é uma operação misteriosa: 25% significa 25 em cada 100; 50% significa metade; 10% significa 10 em cada 100.',
-        example:[
-          'Exemplo: quanto é 25% de 200?',
-          '25% quer dizer 25 de cada 100.',
-          'O número 200 tem dois grupos de 100. Então pegamos 25 no primeiro grupo e 25 no segundo.',
-          '25 + 25 = 50. Portanto, 25% de 200 = 50.',
-          'Outro jeito: 25% = 25/100. Simplificando por 25, temos 1/4. Então 25% de um número é a mesma coisa que dividir esse número por 4.',
-          '200 ÷ 4 = 50.'
-        ],
-        guided:{q:'Quanto é 10% de 350?',h:['10% significa 10 de cada 100.','Um atalho seguro para 10% é dividir o número por 10.','350 ÷ 10 = 35.'],a:'35'}
-      },
-      {
-        title:'B. Razão — comparar duas quantidades',
-        why:'Razão é uma comparação por divisão. Quando dizemos “2 para 5”, estamos comparando 2 com 5. Podemos escrever 2:5 ou 2/5. A ordem importa: 2/5 não é igual a 5/2.',
-        example:[
-          'Exemplo: uma equipe tem 6 homens e 9 mulheres. Qual é a razão de homens para mulheres?',
-          'A pergunta diz “homens para mulheres”. Então colocamos homens primeiro: 6/9.',
-          'Podemos simplificar dividindo os dois números por 3: 6 ÷ 3 = 2 e 9 ÷ 3 = 3.',
-          'A razão simplificada é 2/3, ou 2:3.',
-          'Isso significa que, mantendo essa mesma comparação, para cada 2 homens há 3 mulheres.'
-        ],
-        guided:{q:'Há 8 crianças e 12 adultos. Qual é a razão de crianças para adultos, simplificada?',h:['A ordem pedida é crianças primeiro e adultos depois: 8/12.','Procure um número que divida 8 e 12. O 4 divide os dois.','8 ÷ 4 = 2 e 12 ÷ 4 = 3.'],a:'2/3 ou 2:3'}
-      },
-      {
-        title:'C. Proporção — duas razões que representam a mesma relação',
-        why:'Proporção acontece quando duas razões são equivalentes. É como dizer que 1/2 e 2/4 representam a mesma quantidade. A ideia é manter a mesma relação enquanto os números aumentam ou diminuem juntos.',
-        example:[
-          'Exemplo: 2/3 = 4/6 é uma proporção?',
-          'Sim. De 2 para 4 multiplicamos por 2. De 3 para 6 também multiplicamos por 2.',
-          'Como numerador e denominador foram multiplicados pelo mesmo número, a relação foi mantida.',
-          'Também podemos conferir cruzando: 2 × 6 = 12 e 3 × 4 = 12. Como os produtos são iguais, as razões são proporcionais.'
-        ],
-        guided:{q:'3/5 e 9/15 formam uma proporção?',h:['Veja o que aconteceu de 3 para 9: multiplicou por 3.','Veja o que aconteceu de 5 para 15: também multiplicou por 3.','Como os dois lados mudaram pelo mesmo fator, a relação foi mantida.'],a:'Sim, 3/5 = 9/15.'}
-      },
-      {
-        title:'D. Regra de três simples — descobrir o número que falta',
-        why:'Regra de três é usada quando temos três valores conhecidos e queremos descobrir um quarto valor mantendo a mesma relação. Antes de montar a conta, pergunte: “se uma quantidade aumenta, a outra também aumenta?” Se sim, é um caso direto como preço e quantidade de itens.',
-        example:[
-          'Exemplo: 4 cadernos custam R$ 20. Quanto custam 6 cadernos?',
-          'Primeiro organize os dados na mesma ordem: 4 cadernos → R$ 20; 6 cadernos → R$ x.',
-          'Por que colocamos x? Porque x representa o valor que ainda não sabemos.',
-          'Como mais cadernos custam mais dinheiro, as grandezas aumentam juntas. É uma relação diretamente proporcional.',
-          'Método mais fácil para começar: descubra o valor de 1 caderno. Se 4 custam 20, faça 20 ÷ 4 = 5. Cada caderno custa R$ 5.',
-          'Agora calcule 6 cadernos: 6 × 5 = 30. Resposta: R$ 30.',
-          'Método da multiplicação cruzada: 4/20 = 6/x. Multiplique cruzado: 4 × x = 20 × 6. Então 4x = 120.',
-          'Agora precisamos deixar x sozinho. Como x está multiplicado por 4, fazemos a operação contrária: 120 ÷ 4 = 30. Logo, x = 30.',
-          'Por que podemos dividir por 4? Porque 4x quer dizer 4 vezes x. Se 4 vezes alguma coisa dá 120, essa coisa é 120 dividido por 4.'
-        ],
-        guided:{q:'3 garrafas custam R$ 18. Quanto custam 5 garrafas?',h:['Organize: 3 garrafas → R$ 18; 5 garrafas → R$ x.','Comece pelo valor de 1 garrafa: 18 ÷ 3 = 6.','Se cada garrafa custa R$ 6, faça 5 × 6.'],a:'R$ 30'}
-      }
+      {title:'A. Números inteiros — positivos e negativos',why:'Inteiros são números sem parte decimal: ..., -3, -2, -1, 0, 1, 2, 3... Pense em temperatura ou saldo: positivo é acima de zero; negativo é abaixo de zero.',example:['Exemplo: 5 - 8','Você tem 5 e precisa tirar 8. Como falta 3 para conseguir tirar tudo, o resultado passa 3 unidades abaixo de zero.','5 - 8 = -3.','Na reta numérica: comece no 5 e ande 8 casas para a esquerda. Você para no -3.'],guided:{q:'Quanto é 4 - 9?',h:['Comece no 4.','Ande 9 casas para a esquerda.','Você passa pelo zero e termina 5 unidades abaixo dele.'],a:'-5'}},
+      {title:'B. Números racionais e decimais',why:'Racional é todo número que pode ser escrito como fração. Exemplos: 1/2, 3/4, 2,5 e 0,25. Decimal e fração podem representar a mesma quantidade.',example:['Exemplo: transformar 0,5 em fração.','0,5 significa cinco décimos, então escrevemos 5/10.','Podemos simplificar dividindo os dois números por 5: 5 ÷ 5 = 1 e 10 ÷ 5 = 2.','Logo, 0,5 = 1/2.'],guided:{q:'Transforme 0,25 em fração simples.',h:['0,25 significa 25 centésimos: 25/100.','Divida 25 e 100 pelo mesmo número. O 25 divide os dois.','25 ÷ 25 = 1 e 100 ÷ 25 = 4.'],a:'1/4'}},
+      {title:'C. Frações — entender numerador e denominador',why:'O número de baixo diz em quantas partes iguais o inteiro foi dividido. O número de cima diz quantas dessas partes estamos usando.',example:['Exemplo: 3/4 + 1/2','Em 3/4 temos 3 pedaços de tamanho 1/4. Em 1/2 temos 1 pedaço de tamanho 1/2. Não podemos somar pedaços de tamanhos diferentes.','Precisamos transformar 1/2 em quartos. Como 2 × 2 = 4, multiplicamos também o número de cima por 2: 1 × 2 = 2. Então 1/2 = 2/4.','Agora temos 3/4 + 2/4. Mantemos o denominador 4 porque continuamos falando de quartos. Somamos apenas quantos quartos existem: 3 + 2 = 5. Resultado: 5/4.','5/4 significa cinco quartos. Quatro quartos formam 1 inteiro e sobra 1/4: 5/4 = 1 1/4.','Sem calculadora: 5 ÷ 4. O 4 cabe 1 vez no 5 e sobra 1. Acrescente zero: 10. O 4 cabe 2 vezes e sobra 2. Acrescente zero: 20. O 4 cabe 5 vezes. Resultado 1,25.'],guided:{q:'Quanto é 2/3 + 1/6?',h:['Precisamos deixar os denominadores iguais.','Como 3 × 2 = 6, transforme 2/3 em 4/6 multiplicando cima e baixo por 2.','Agora some 4/6 + 1/6. Mantenha o 6 e some 4 + 1.'],a:'5/6'}}
     ]
   },
   {
-    video:'https://www.youtube.com/results?search_query=media+aritmetica+medidas+perimetro+area+matematica+basica+aula',
-    label:'Média, medidas, perímetro e área — aula básica',
-    example:['Exemplo: média de 6, 8 e 10','Média é como repartir igualmente o total entre todos os valores.','Primeiro some tudo: 6 + 8 + 10 = 24.','Temos 3 números. Divida o total por 3: 24 ÷ 3 = 8. A média é 8.'],
-    guided:{q:'Um retângulo mede 5 m por 3 m. Qual é a área?',h:['Área é o espaço que existe dentro da figura.','No retângulo, multiplicamos base pela altura: 5 × 3.','Imagine 3 fileiras com 5 quadradinhos em cada uma: 5 + 5 + 5 = 15.'],a:'15 m²'}
+    video:'https://www.youtube.com/results?search_query=porcentagem+razao+proporcao+regra+de+tres+matematica+basica+professor+ferretto',label:'Porcentagem, razão, proporção e regra de três — aula básica',lessons:[
+      {title:'A. Porcentagem — entender antes de calcular',why:'Porcentagem significa “de cada 100”. 25% é 25 em cada 100; 50% é metade; 10% é 10 em cada 100.',example:['Exemplo: quanto é 25% de 200?','200 tem dois grupos de 100. Pegamos 25 em cada grupo: 25 + 25 = 50.','Outro jeito: 25% = 25/100 = 1/4. Então basta dividir 200 por 4.','200 ÷ 4 = 50.'],guided:{q:'Quanto é 10% de 350?',h:['10% é 10 de cada 100.','Para achar 10%, divida por 10.','350 ÷ 10 = 35.'],a:'35'}},
+      {title:'B. Razão — comparar duas quantidades',why:'Razão é uma comparação por divisão. “2 para 5” pode ser escrito 2:5 ou 2/5. A ordem importa.',example:['Exemplo: 6 homens e 9 mulheres. Razão de homens para mulheres.','Homens vêm primeiro: 6/9.','Simplifique dividindo ambos por 3: 6 ÷ 3 = 2; 9 ÷ 3 = 3.','Razão = 2/3 ou 2:3.'],guided:{q:'Há 8 crianças e 12 adultos. Qual a razão crianças:adultos?',h:['Escreva 8/12.','Divida os dois por 4.','8 ÷ 4 = 2 e 12 ÷ 4 = 3.'],a:'2/3 ou 2:3'}},
+      {title:'C. Proporção — manter a mesma relação',why:'Proporção é quando duas razões representam a mesma relação, como 1/2 e 2/4.',example:['Exemplo: 2/3 = 4/6?','De 2 para 4 multiplicou por 2. De 3 para 6 também.','Como os dois mudaram pelo mesmo fator, a relação foi mantida.','Conferência cruzada: 2 × 6 = 12 e 3 × 4 = 12.'],guided:{q:'3/5 e 9/15 formam uma proporção?',h:['3 virou 9 multiplicando por 3.','5 virou 15 multiplicando por 3.','Os dois mudaram pelo mesmo fator.'],a:'Sim.'}},
+      {title:'D. Regra de três simples — achar o valor que falta',why:'Use quando há três valores conhecidos e um desconhecido. Primeiro pergunte se as duas grandezas aumentam juntas. Preço e quantidade normalmente aumentam juntos.',example:['Exemplo: 4 cadernos custam R$ 20. Quanto custam 6?','Organize: 4 cadernos → R$20; 6 cadernos → R$x. O x é o valor desconhecido.','Método mais intuitivo: descubra 1 caderno. 20 ÷ 4 = 5. Cada um custa R$5.','Agora 6 × 5 = 30.','Método cruzado: 4/20 = 6/x. Multiplique cruzado: 4x = 120.','Para deixar x sozinho, faça a operação contrária de ×4: 120 ÷ 4 = 30.'],guided:{q:'3 garrafas custam R$18. Quanto custam 5?',h:['3 → 18; 5 → x.','Ache 1 garrafa: 18 ÷ 3 = 6.','Agora faça 5 × 6.'],a:'R$30'}}
+    ]
   },
   {
-    video:'https://www.youtube.com/results?search_query=interpretacao+tabelas+graficos+matematica+basica+concursos',
-    label:'Tabelas e gráficos — interpretação básica',
-    example:['Exemplo: 20 atendimentos na segunda e 35 na terça. Quanto aumentou?','A palavra “aumentou” pede a diferença entre o valor maior e o menor.','Faça 35 − 20 = 15.','Isso não quer dizer que terça teve 15 atendimentos; terça teve 35. O aumento de segunda para terça foi de 15.'],
-    guided:{q:'Janeiro teve 40 casos e fevereiro 55. Qual foi o aumento?',h:['Procure o valor inicial e o valor final.','Para descobrir quanto aumentou, faça final − inicial.','55 − 40 = 15.'],a:'15 casos'}
+    video:'https://www.youtube.com/results?search_query=media+aritmetica+medidas+perimetro+area+matematica+basica+aula',label:'Média, medidas, perímetro e área — aula básica',lessons:[
+      {title:'A. Média aritmética',why:'Média é como juntar tudo e repartir igualmente entre a quantidade de valores.',example:['Exemplo: média de 6, 8 e 10.','Some tudo: 6 + 8 + 10 = 24.','Conte quantos números existem: 3.','Divida 24 por 3. Como 3 × 8 = 24, 24 ÷ 3 = 8.','Média = 8.'],guided:{q:'Qual a média de 5, 7 e 9?',h:['Some: 5 + 7 + 9.','O total é 21. Existem 3 valores.','Faça 21 ÷ 3.'],a:'7'}},
+      {title:'B. Medidas e conversões',why:'Converter medida é trocar a unidade sem mudar a quantidade real. Em tempo, 1 hora = 60 minutos. Em comprimento, 1 metro = 100 centímetros.',example:['Exemplo: 2 horas e 30 minutos em minutos.','Cada hora tem 60 minutos. Duas horas: 2 × 60 = 120.','Some os 30 minutos restantes: 120 + 30 = 150.','Logo, 2h30 = 150 minutos.'],guided:{q:'Quantos minutos existem em 1h45?',h:['1 hora = 60 minutos.','Some os 45 minutos extras.','60 + 45.'],a:'105 minutos'}},
+      {title:'C. Perímetro — o contorno',why:'Perímetro é a medida em volta da figura. Imagine que você vai passar uma fita em todo o contorno.',example:['Exemplo: retângulo de 5 m por 3 m.','Ele tem dois lados de 5 e dois lados de 3.','Some todos: 5 + 3 + 5 + 3 = 16.','Perímetro = 16 m.'],guided:{q:'Um retângulo mede 4 m por 2 m. Qual o perímetro?',h:['Some os quatro lados.','4 + 2 + 4 + 2.','Ou faça 2 × (4 + 2).'],a:'12 m'}},
+      {title:'D. Área — o espaço de dentro',why:'Área mede quanto espaço existe dentro da figura. Para um retângulo, pense em fileiras de quadradinhos: base × altura.',example:['Exemplo: retângulo de 5 m por 3 m.','Imagine 3 fileiras com 5 quadrados em cada uma.','5 + 5 + 5 = 15, que é igual a 5 × 3.','Área = 15 m². O símbolo m² indica “metros quadrados”.'],guided:{q:'Um retângulo mede 6 m por 4 m. Qual a área?',h:['Use base × altura.','Faça 6 × 4.','Pense em 4 fileiras de 6 quadrados.'],a:'24 m²'}}
+    ]
   },
   {
-    video:'https://www.youtube.com/results?search_query=problemas+tempo+horas+minutos+matematica+basica+concursos',
-    label:'Tempo, horas e minutos — problemas básicos',
-    example:['Exemplo: começa às 13h20 e dura 1h45.','Some primeiro a parte fácil: 1 hora depois de 13h20 é 14h20.','Agora faltam 45 minutos. De 14h20 até 15h00 passam 40 minutos. Ainda faltam 5 minutos.','Some os 5 minutos restantes: termina às 15h05.'],
-    guided:{q:'Um atendimento começa às 9h35 e dura 50 minutos. Quando termina?',h:['De 9h35 até 10h00 passam 25 minutos.','Dos 50 minutos, já usamos 25. Restam 25 minutos.','Some os 25 restantes a 10h00.'],a:'10h25'}
+    video:'https://www.youtube.com/results?search_query=interpretacao+tabelas+graficos+matematica+basica+concursos',label:'Tabelas e gráficos — interpretação básica',lessons:[
+      {title:'A. Ler tabela sem se perder',why:'Primeiro identifique linha, coluna e unidade. Não faça conta antes de localizar exatamente os valores pedidos.',example:['Exemplo: segunda = 20 atendimentos; terça = 35. Quanto aumentou?','Valor inicial: 20. Valor final: 35.','“Quanto aumentou?” pede diferença: final - inicial.','35 - 20 = 15. O aumento foi 15, embora terça tenha tido 35 atendimentos.'],guided:{q:'Março teve 48 atendimentos e abril 63. Qual o aumento?',h:['Inicial = 48. Final = 63.','Faça 63 - 48.','63 - 40 = 23; depois tire mais 8: 15.'],a:'15 atendimentos'}},
+      {title:'B. Ler gráficos',why:'Em gráfico, confira o título, o que cada eixo representa e a escala. Uma barra maior não basta: precisamos ler o valor.',example:['Exemplo: gráfico mostra janeiro 40 e fevereiro 55.','Leia os dois valores no eixo.','Se a pergunta pede diferença, faça 55 - 40 = 15.','Se pedisse o total dos dois meses, seria soma: 40 + 55 = 95. A operação depende do verbo da pergunta.'],guided:{q:'Um gráfico mostra 30 casos em maio e 50 em junho. Qual foi o total dos dois meses?',h:['A palavra “total” pede soma.','Some 30 + 50.','Não faça subtração, porque não foi perguntada a diferença.'],a:'80 casos'}},
+      {title:'C. Percentual em tabelas e gráficos',why:'Às vezes a questão pede qual parte do total corresponde a uma categoria. A ideia é parte ÷ total e depois transformar em porcentagem.',example:['Exemplo: 20 de 100 atendimentos foram retornos.','A parte é 20 e o total é 100: 20/100.','Como porcentagem significa “por 100”, 20/100 = 20%.'],guided:{q:'De 200 atendimentos, 50 foram retornos. Qual percentual?',h:['Escreva 50/200.','Simplifique: 50 é 1/4 de 200.','1/4 corresponde a 25%.'],a:'25%'}}
+    ]
   },
   {
-    video:'https://www.youtube.com/watch?v=XLEJ236hXr4',
-    label:'Proposições, conectivos e negação — aula básica',
-    example:['Exemplo: negue “Todos os servidores chegaram cedo”.','Negar uma frase significa dizer o que precisa acontecer para provar que ela é falsa.','Para provar que “todos chegaram cedo” é falso, não precisamos mostrar que ninguém chegou cedo. Basta encontrar uma única pessoa que não chegou cedo.','Por isso, a negação correta é: “Pelo menos um servidor não chegou cedo”.'],
-    guided:{q:'Negue: “João estuda e Maria trabalha”.',h:['A frase afirma que as duas coisas acontecem ao mesmo tempo. Para ela ser falsa, basta pelo menos uma delas não acontecer.','Negue cada parte: “João não estuda” e “Maria não trabalha”.','Ao negar uma frase ligada por “e”, usamos “ou”: basta uma das duas falhar.'],a:'João não estuda ou Maria não trabalha.'}
+    video:'https://www.youtube.com/results?search_query=problemas+tempo+horas+minutos+matematica+basica+concursos',label:'Tempo, prazos e quantidades — problemas básicos',lessons:[
+      {title:'A. Somar tempo',why:'Como 1 hora tem 60 minutos, não tratamos horas e minutos como números decimais comuns. Uma forma segura é avançar até a próxima hora inteira.',example:['Exemplo: começa 13h20 e dura 1h45.','+1 hora: 14h20.','Faltam 45 min. De 14h20 até 15h00 são 40 min.','Restam 5 min. Resultado: 15h05.'],guided:{q:'Começa 9h35 e dura 50 min. Quando termina?',h:['Até 10h00 passam 25 min.','Dos 50, restam 25.','10h00 + 25 min.'],a:'10h25'}},
+      {title:'B. Descobrir duração',why:'Quando sabemos início e fim, contamos quanto tempo passou. Podemos quebrar o intervalo em pedaços fáceis.',example:['Exemplo: começou 8h40 e terminou 10h10.','De 8h40 até 9h00 = 20 min.','De 9h00 até 10h00 = 60 min.','De 10h00 até 10h10 = 10 min.','Total: 20 + 60 + 10 = 90 min = 1h30.'],guided:{q:'Das 14h15 às 15h00, quanto tempo passou?',h:['De 14h15 até 14h30 = 15 min.','De 14h30 até 15h00 = 30 min.','Some 15 + 30.'],a:'45 minutos'}},
+      {title:'C. Prazos em dias',why:'Questões de prazo costumam pedir soma ou diferença de dias. Leia se o dia inicial entra ou não na contagem; quando a questão simples não dá regra especial, avance a quantidade pedida.',example:['Exemplo: uma tarefa leva 5 dias a partir do dia 10, considerando o dia seguinte como primeiro dia.','Dia 11 = 1; 12 = 2; 13 = 3; 14 = 4; 15 = 5.','Termina no dia 15.'],guided:{q:'Começando a contar no dia seguinte ao dia 20, qual a data após 3 dias?',h:['Dia 21 = 1.','Dia 22 = 2.','Dia 23 = 3.'],a:'Dia 23'}},
+      {title:'D. Quantidades e divisão em grupos',why:'Quando a pergunta pede distribuir igualmente, geralmente usamos divisão. Quando pede juntar grupos, geralmente usamos multiplicação ou soma.',example:['Exemplo: 48 formulários divididos igualmente entre 6 pessoas.','“Igualmente entre 6” indica divisão: 48 ÷ 6.','Pergunte: 6 vezes quanto dá 48? 6 × 8 = 48.','Cada pessoa recebe 8.'],guided:{q:'72 itens divididos igualmente em 8 caixas. Quantos por caixa?',h:['Use divisão: 72 ÷ 8.','Pense na tabuada do 8.','8 × 9 = 72.'],a:'9 itens'}}
+    ]
   },
   {
-    video:'https://www.youtube.com/results?search_query=sequencias+padroes+raciocinio+logico+concursos+aula+basica',
-    label:'Sequências e padrões — raciocínio lógico básico',
-    example:['Exemplo: 2, 5, 8, 11, ...','Pergunte: o que aconteceu do 2 para o 5? Somou 3.','Confira se a regra continua: 5 + 3 = 8 e 8 + 3 = 11. Sim.','Então repita a regra: 11 + 3 = 14. O próximo número é 14.'],
-    guided:{q:'Complete: 3, 6, 12, 24, ...',h:['Compare cada número com o anterior.','3 virou 6, 6 virou 12 e 12 virou 24. Em todos os casos o número dobrou, ou seja, multiplicou por 2.','Repita a mesma regra no último número: 24 × 2.'],a:'48'}
+    video:'https://www.youtube.com/watch?v=XLEJ236hXr4',label:'Proposições, conectivos e negação — aula básica',lessons:[
+      {title:'A. Proposição — frase que pode ser verdadeira ou falsa',why:'Proposição é uma frase declarativa que podemos classificar como verdadeira ou falsa. Perguntas e ordens normalmente não são proposições.',example:['“Brasília é a capital do Brasil.” É proposição porque podemos dizer que é verdadeira.','“Feche a porta.” é uma ordem; não classificamos como verdadeira ou falsa.','“Que horas são?” é pergunta; também não é proposição.'],guided:{q:'“2 + 2 = 5” é uma proposição?',h:['É uma frase declarativa.','Podemos decidir se é verdadeira ou falsa.','Ser falsa não impede que seja proposição.'],a:'Sim. É uma proposição falsa.'}},
+      {title:'B. Conectivo E',why:'Na frase A E B, o conjunto só é verdadeiro quando A e B são verdadeiros ao mesmo tempo.',example:['“João estuda E Maria trabalha.”','Para a frase inteira ser verdadeira, João precisa estudar e Maria precisa trabalhar.','Se uma das duas partes for falsa, o “E” inteiro fica falso.'],guided:{q:'Se A é verdadeira e B é falsa, A E B é verdadeiro ou falso?',h:['O conectivo E exige as duas verdadeiras.','Uma delas é falsa.','Logo, a condição falhou.'],a:'Falso'}},
+      {title:'C. Conectivo OU',why:'No OU comum da lógica, basta pelo menos uma das partes ser verdadeira. Só fica falso quando as duas são falsas.',example:['“João estuda OU Maria trabalha.”','Se João estuda, a frase já pode ser verdadeira. Se Maria trabalha, também.','Só será falsa se João não estudar E Maria não trabalhar.'],guided:{q:'Se A é falsa e B é verdadeira, A OU B é verdadeiro ou falso?',h:['OU precisa de pelo menos uma verdadeira.','B é verdadeira.','Isso já basta.'],a:'Verdadeiro'}},
+      {title:'D. Negação',why:'Negar é dizer exatamente o que torna a afirmação original falsa. Não é apenas colocar “não” em qualquer lugar.',example:['Negue: “Todos os servidores chegaram cedo.”','Para “todos” ser falso, basta uma exceção.','Negação correta: “Pelo menos um servidor não chegou cedo.”'],guided:{q:'Negue: “João estuda e Maria trabalha”.',h:['Negue cada parte.','Ao negar um E, troque por OU.','João não estuda OU Maria não trabalha.'],a:'João não estuda ou Maria não trabalha.'}}
+    ]
+  },
+  {
+    video:'https://www.youtube.com/results?search_query=sequencias+padroes+raciocinio+logico+concursos+aula+basica',label:'Sequências, padrões e organização de informações — aula básica',lessons:[
+      {title:'A. Sequência por soma ou subtração',why:'Compare um termo com o seguinte e procure a mesma diferença repetida.',example:['Exemplo: 2, 5, 8, 11, ...','2 para 5: +3.','5 para 8: +3.','8 para 11: +3.','Repita: 11 + 3 = 14.'],guided:{q:'Complete: 10, 15, 20, 25, ...',h:['Veja quanto aumenta a cada passo.','Sempre soma 5.','25 + 5.'],a:'30'}},
+      {title:'B. Sequência por multiplicação',why:'Algumas sequências crescem multiplicando pelo mesmo número, não somando.',example:['Exemplo: 3, 6, 12, 24, ...','3 × 2 = 6.','6 × 2 = 12.','12 × 2 = 24.','Continue: 24 × 2 = 48.'],guided:{q:'Complete: 2, 6, 18, 54, ...',h:['2 para 6 é ×3.','6 para 18 também é ×3.','Repita em 54.'],a:'162'}},
+      {title:'C. Padrões alternados',why:'Às vezes não existe uma única regra. Pode haver duas sequências intercaladas ou operações que alternam.',example:['Exemplo: 2, 4, 3, 6, 4, 8, ...','Separe posições: 2, 3, 4... e 4, 6, 8...','A primeira sequência aumenta 1. A segunda aumenta 2.','Depois de 8, o próximo da primeira sequência é 5.'],guided:{q:'Complete: 1, 10, 2, 20, 3, 30, ...',h:['Olhe posições ímpares: 1, 2, 3.','Olhe posições pares: 10, 20, 30.','A próxima posição é ímpar.'],a:'4'}},
+      {title:'D. Organização de informações',why:'Em problemas com várias pessoas, cargos ou características, organize os dados em tabela simples e elimine impossibilidades. Evite tentar guardar tudo na cabeça.',example:['Exemplo: Ana não trabalha de manhã. Bia trabalha de manhã. Quem pode ocupar o turno da manhã entre Ana e Bia?','Faça duas linhas: Ana = não manhã; Bia = manhã.','A informação já elimina Ana.','Resposta: Bia.'],guided:{q:'Carlos não usa ônibus. Diego usa ônibus. Entre os dois, quem certamente usa ônibus?',h:['Registre cada informação separadamente.','Carlos = não ônibus.','Diego = ônibus.'],a:'Diego'}}
+    ]
   }
 ]
 
 const escMath=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))
 const guidedHtml=g=>`<div class="math-hints">${g.h.map((x,i)=>`<details><summary>Dica ${i+1}</summary><p>${escMath(x)}</p></details>`).join('')}<details class="math-answer"><summary>Conferir resposta</summary><p><b>${escMath(g.a)}</b></p></details></div>`
-
-function learningHtml(m){
-  const lessonHtml=m.lessons?`<section class="math-step"><span>✏️ 2. Aprenda cada parte do módulo — uma por vez</span><p>Este módulo reúne assuntos diferentes. Não vamos misturá-los: estude um bloco, faça o exercício guiado e só depois passe ao próximo.</p>${m.lessons.map((l,i)=>`<div class="math-sublesson"><h4>${escMath(l.title)}</h4><p class="math-why"><b>O que isso quer dizer?</b> ${escMath(l.why)}</p><div class="math-example"><b>Exemplo resolvido — sem pular etapas</b><ol>${l.example.map(x=>`<li>${escMath(x)}</li>`).join('')}</ol></div><div class="math-guided-inline"><b>🧮 Agora resolva comigo</b><p>${escMath(l.guided.q)}</p>${guidedHtml(l.guided)}</div></div>`).join('')}</section>`:`<section class="math-step"><span>✏️ 2. Veja um exemplo resolvido — sem pular etapas</span><ol>${m.example.map(x=>`<li>${escMath(x)}</li>`).join('')}</ol></section><section class="math-step guided"><span>🧮 3. Resolva comigo</span><p><b>${escMath(m.guided.q)}</b></p>${guidedHtml(m.guided)}</section>`
-  return `<div class="math-learning-flow"><section class="math-step learn"><span>🎥 1. Aprenda</span><p>Assista primeiro à explicação. Pause o vídeo e refaça as contas no papel.</p><a class="math-video-btn" href="${m.video}" target="_blank" rel="noreferrer">▶ Ver explicação em vídeo</a><small>${escMath(m.label)}</small></section>${lessonHtml}<section class="math-step solo"><span>🎯 ${m.lessons?'3':'4'}. Agora sozinha</span><p>Resolva de 3 a 5 questões de CADA assunto estudado. Abaixo de 70% de acertos, volte ao bloco correspondente e refaça o exemplo.</p><button class="math-go-questions" type="button">Ir para Questões</button></section></div>`
-}
-
+function learningHtml(m){const lessonHtml=`<section class="math-step"><span>✏️ 2. Aprenda cada parte do módulo — uma por vez</span><p>Este módulo reúne assuntos diferentes. Não misture tudo de uma vez: leia um bloco, acompanhe o exemplo, faça o exercício guiado e só depois avance.</p>${m.lessons.map(l=>`<div class="math-sublesson"><h4>${escMath(l.title)}</h4><p class="math-why"><b>O que isso quer dizer?</b> ${escMath(l.why)}</p><div class="math-example"><b>Exemplo resolvido — sem pular etapas</b><ol>${l.example.map(x=>`<li>${escMath(x)}</li>`).join('')}</ol></div><div class="math-guided-inline"><b>🧮 Agora resolva comigo</b><p>${escMath(l.guided.q)}</p>${guidedHtml(l.guided)}</div></div>`).join('')}</section>`;return `<div class="math-learning-flow"><section class="math-step learn"><span>🎥 1. Aprenda</span><p>Assista primeiro à explicação. Pause o vídeo e refaça as contas no papel. O objetivo é entender o raciocínio, não decorar fórmula.</p><a class="math-video-btn" href="${m.video}" target="_blank" rel="noreferrer">▶ Ver explicação em vídeo</a><small>${escMath(m.label)}</small></section>${lessonHtml}<section class="math-step solo"><span>🎯 3. Agora sozinha</span><p>Resolva de 3 a 5 questões de CADA assunto do módulo. Se ficar abaixo de 70%, volte somente ao bloco em que errou e refaça o exemplo antes de tentar novas questões.</p><button class="math-go-questions" type="button">Ir para Questões</button></section></div>`}
 function operadorAtivo(){return document.querySelector('#cargoSelect')?.value==='operador'}
-function patchStudy(){if(!operadorAtivo())return;const pageTitle=document.querySelector('.section-header h2')?.textContent||'';if(!/Matemática.*Raciocínio Lógico/i.test(pageTitle))return;[...document.querySelectorAll('.study-module')].forEach((card,i)=>{const m=MATH_MODULES[i];if(!m||card.dataset.mathV3==='1')return;card.querySelectorAll('.math-learning-flow,.math-method-badge').forEach(x=>x.remove());const summary=card.querySelector('summary>div');if(summary)summary.insertAdjacentHTML('beforeend','<span class="math-method-badge">🎥 Método em etapas</span>');const body=card.querySelector('.study-module-body');if(body)body.insertAdjacentHTML('afterbegin',learningHtml(m));card.dataset.mathV3='1'})}
+function patchStudy(){if(!operadorAtivo())return;const pageTitle=document.querySelector('.section-header h2')?.textContent||'';if(!/Matemática.*Raciocínio Lógico/i.test(pageTitle))return;[...document.querySelectorAll('.study-module')].forEach((card,i)=>{const m=MATH_MODULES[i];if(!m||card.dataset.mathV4==='1')return;card.querySelectorAll('.math-learning-flow,.math-method-badge').forEach(x=>x.remove());const summary=card.querySelector('summary>div');if(summary)summary.insertAdjacentHTML('beforeend','<span class="math-method-badge">🎥 Método passo a passo</span>');const body=card.querySelector('.study-module-body');if(body)body.insertAdjacentHTML('afterbegin',learningHtml(m));card.dataset.mathV4='1'})}
 function topicVideo(topic){const t=topic.toLowerCase();if(t.includes('fraç')||t.includes('inteiro')||t.includes('racional'))return MATH_MODULES[0].video;if(t.includes('porcent')||t.includes('razão')||t.includes('propor')||t.includes('regra de três'))return MATH_MODULES[1].video;if(t.includes('média')||t.includes('medida')||t.includes('perímetro')||t.includes('área'))return MATH_MODULES[2].video;if(t.includes('tabela')||t.includes('gráfico'))return MATH_MODULES[3].video;if(t.includes('tempo')||t.includes('prazo')||t.includes('quantidade'))return MATH_MODULES[4].video;if(t.includes('proposi')||t.includes('conectivo')||t.includes('negação'))return MATH_MODULES[5].video;if(t.includes('sequência')||t.includes('padr')||t.includes('organização'))return MATH_MODULES[6].video;return 'https://www.youtube.com/results?search_query='+encodeURIComponent(topic+' matemática básica concursos aula')}
 function patchReview(){if(!operadorAtivo())return;document.querySelectorAll('.weak-topic-row').forEach(row=>{if(row.dataset.mathReviewV2==='1')return;const disc=row.querySelector('span')?.textContent||'';if(!/Matemática|Raciocínio Lógico/i.test(disc))return;const topic=row.querySelector('b')?.textContent||'';const a=document.createElement('a');a.className='math-review-video';a.target='_blank';a.rel='noreferrer';a.href=topicVideo(topic);a.textContent='▶ Ver explicação em vídeo';row.appendChild(a);row.dataset.mathReviewV2='1'})}
 function bindMathButtons(){document.querySelectorAll('.math-go-questions').forEach(btn=>{if(btn.dataset.mathBound==='1')return;btn.dataset.mathBound='1';btn.onclick=()=>[...document.querySelectorAll('#nav button')].find(b=>b.textContent.trim()==='Questões')?.click()})}
